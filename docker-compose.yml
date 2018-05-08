@@ -1,0 +1,8 @@
+services:
+  decktape:
+    command: ["/home/user/index.html", "can-packaging-improve-django-deployments.pdf"]
+    image: astefanutti/decktape:2.8.2@sha256:63896485d629de23c8efaaa47002bfacd5fa93335e2c92884214f6e11f6c8f01
+    volumes:
+      - .:/slides
+      - .:/home/user
+version: '3'

@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- Presentation metadata -->
+    <title>Can packaging improve Django deployments?</title>
+    <meta name="description" content="How can packaging Django projects make deployments easier, faster and more reliable?">
+    <meta name="author" content="Markus Zapke-Gründemann">
+    <!-- reveal.js CSS -->
+    <link rel="stylesheet" href="css/reveal.css">
+    <!-- The id attribute must be defined for the reveal.js-menu themes panel -->
+    <link rel="stylesheet" href="css/theme/black.css" id="theme">
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="css/fa-solid.css">
+    <link rel="stylesheet" href="css/fa-regular.css">
+    <link rel="stylesheet" href="css/fa-brands.css">
+    <link rel="stylesheet" href="css/fontawesome.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/custom.css">
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <h2>Can packaging improve Django deployments?</h2>
+          <p>DjangoCon Europe 2018</p>
+          <p>Markus Zapke-Gründemann</p>
+        </section>
+        <section>
+          <h2>Create your other slides here</h2>
+        </section>
+        <section>
+          <h2>Resources</h2>
+          <p>
+            <a href="https://github.com/keimlink/can-packaging-improve-django-deployments">
+              <i class="fab fa-github"></i>keimlink/can-packaging-improve-django-deployments
+            </a>
+          </p>
+          <p>
+            <a href="https://twitter.com/keimlink">
+              <i class="fab fa-twitter"></i>@keimlink
+            </a>
+          </p>
+          <p class="creativecommons">
+            <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+              <i class="fab fa-creative-commons"></i>
+              <i class="fab fa-creative-commons-by"></i>
+            </a><br>
+            <span>
+              This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>
+            </span>
+          </p>
+        </section>
+      </div>
+    </div>
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+    <script>
+      // More info about config & dependencies:
+      // - https://github.com/hakimel/reveal.js#configuration
+      // - https://github.com/hakimel/reveal.js#dependencies
+      Reveal.initialize({
+        dependencies: [
+          { src: 'plugin/markdown/marked.js' },
+          { src: 'plugin/markdown/markdown.js' },
+          { src: 'plugin/notes/notes.js', async: true },
+          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          // Zoom in and out with Alt+click
+          { src: 'plugin/zoom-js/zoom.js', async: true },
+          { src: 'third_party_plugins/menu.js' }
+        ],
+        menu: {
+          themes: true,
+          transitions: true,
+          openButton: false,
+          loadIcons: false
+        }
+      });
+    </script>
+  </body>
+</html>

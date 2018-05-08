@@ -1,0 +1,13 @@
+/* Custom CSS rules */
+i {
+  margin-right: 0.25em;
+}
+
+.reveal .creativecommons {
+  margin-top: 2em;
+  margin-bottom: 0;
+}
+
+.reveal .creativecommons span {
+  font-size: 0.4em;
+}

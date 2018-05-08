@@ -1,0 +1,19 @@
+{
+  "name": "can-packaging-improve-django-deployments",
+  "version": "1.0.0",
+  "description": "How can packaging Django projects make deployments easier, faster and more reliable?",
+  "homepage": "https://github.com/keimlink/can-packaging-improve-django-deployments",
+  "bugs": "https://github.com/keimlink/can-packaging-improve-django-deployments/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/keimlink/can-packaging-improve-django-deployments.git"
+  },
+  "author": "Markus Zapke-Gründemann",
+  "license": "CC-BY-4.0",
+  "dependencies": {
+    "@fortawesome/fontawesome-free-webfonts": "1.0.8",
+    "reveal.js": "3.6.0",
+    "reveal.js-menu": "1.1.2"
+  },
+  "private": true
+}
