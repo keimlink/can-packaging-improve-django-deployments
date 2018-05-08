@@ -3,6 +3,14 @@ i {
   margin-right: 0.25em;
 }
 
+.reveal .nobullets {
+  list-style: none;
+}
+
+.reveal .nobullets li::before {
+  content: "\200B";
+}
+
 .reveal .creativecommons {
   margin-top: 2em;
   margin-bottom: 0;
