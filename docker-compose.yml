@@ -1,8 +1,17 @@
 services:
   decktape:
-    command: ["/home/user/index.html", "can-packaging-improve-django-deployments.pdf"]
+    command: ["--size", "${PDF_VIEWPORT:-1920x1080}", "reveal", "http://slides?showNotes=true", "can-packaging-improve-django-deployments.pdf"]
+    depends_on:
+      - nginx
     image: astefanutti/decktape:2.8.2@sha256:63896485d629de23c8efaaa47002bfacd5fa93335e2c92884214f6e11f6c8f01
     volumes:
       - .:/slides
-      - .:/home/user
+  nginx:
+    image: nginx:1.14.0-alpine@sha256:a4bbaf406318769c28ff13fcc464bdf7d43b5ff666e9b5279ce568100499f375
+    networks:
+      default:
+        aliases:
+          - slides
+    volumes:
+      - .:/usr/share/nginx/html:ro
 version: '3'
