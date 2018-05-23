@@ -39,6 +39,9 @@ link: ## Link all required resources
 	for i in $$(ls node_modules/reveal.js/css); do \
 		ln -fs ../node_modules/reveal.js/css/$$i css/$$i; \
 	done
+	# Remove original symlinks
+	rm -f css/print/print
+	rm -f css/theme/theme
 	ln -fs node_modules/devicons/fonts .
 	ln -fs ../node_modules/devicons/css/devicons.min.css css/devicons.min.css
 	ln -fs node_modules/@fortawesome/fontawesome-free-webfonts/webfonts .
