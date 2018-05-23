@@ -678,15 +678,15 @@ willow==1.1               # via wagtail
             <h2>Installing on any server</h2>
             <pre>
               <code data-trim data-noescape class="stretch bash">
-                python -m pip install -c constraints.txt myproject
+                python -m pip install -c constraints.txt myproject==1.2.0
               </code>
               <code data-trim data-noescape class="stretch bash fragment">
                 python -m pip install -c constraints.txt \
-                    -f /path/to/wheel myproject
+                    -f /path/to/wheel myproject==1.2.0
               </code>
               <code data-trim data-noescape class="stretch bash fragment">
                 python -m pip install -c constraints.txt \
-                    --extra-index-url https://example.com myproject
+                    --extra-index-url https://example.com myproject==1.2.0
               </code>
             </pre>
             <aside class="notes" data-markdown>
