@@ -620,6 +620,9 @@ willow==1.1               # via wagtail
             </pre>
             <aside class="notes" data-markdown>
               <textarea data-template>
+                This is the generated `constraints.txt` file without hashes.
+
+                It makes it easy to distinguish between the project dependencies and transitive dependencies.
               </textarea>
             </aside>
           </section>
@@ -632,6 +635,11 @@ willow==1.1               # via wagtail
             </pre>
             <aside class="notes" data-markdown>
               <textarea data-template>
+                This is how you install the package in your development environment.
+
+                The difference between a `requirements.txt` and a `constraints.txt` file is, that the latter is only which version is installed, not if it's installed or not.
+
+                The real requirements are still defined in `setup.cfg`.
               </textarea>
             </aside>
           </section>
