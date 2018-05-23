@@ -38,11 +38,22 @@
           <h2>Can packaging improve Django deployments?</h2>
           <p>DjangoCon Europe 2018</p>
           <p>Markus Zapke-Gründemann</p>
+          <aside class="notes" data-markdown>
+            <textarea data-template>
+              Hello, my name is Markus.
+
+              I'm very exited to give this talk here at DjangoCon Europe!
+
+              I also want to thank the team for doing such a great job with organizing this conference.
+
+              Just a brief note before I start: My slides are available online, so you don't have to take notes of everything shown. I'll show the URL at the end of my talk.
+            </textarea>
+          </aside>
         </section>
         <section>
           <h2>About me</h2>
           <ul>
-            <p class="fragment">Started creating websites at the of end the 90's</p>
+            <p class="fragment">Started creating websites at the of end the 90s</p>
             <p class="fragment">Open Source Software Developer</p>
             <p class="fragment"><a href="https://lpug.github.io/">Leipzig Python User Group</a> member</p>
             <p class="fragment"><a hef="https://www.django-verein.de/">German Django Association</a> founding member</p>
@@ -50,687 +61,703 @@
             <p class="fragment"><a href"https://codefor.de/leipzig/">Open Knowledge Lab Leipzig</a> founding member</p>
             <p class="fragment">CTO at <a href="http://www.picturepipe.com/">PicturePipe</a></p></p>
           </ul>
-          <aside data-markdown class="notes">
-            <script type="text/template">
-              <small>
-                * I started creating websites because I was fascinated by the new communication possibilities the Internet provided then.
-                * I used Perl, PHP, JavaScript and (finally) Python.
-                * Because I never had the opportunity to visit a university I learned everything I know from Open Source.
-                * This is one of the main reasons why I am participating in Open Source: To give something back and grow the community.
-                * The German Django Association was founded to organize the first DjangoCon Europe community edition in Berlin 2010.
-                * The Open Knowledge Lab is a part of Code for Germany, which is inspired by Code for America.
-                * I'm CTO at PicturePipe, a small company offering services around video submission, encoding and streaming.
-              </small>
-            </script>
+          <aside class="notes" data-markdown>
+            <textarea data-template>
+              A few words about me.
+              * I started creating websites at the end of the 90s because I was fascinated by the new communication possibilities the Internet provided then. I started with Perl, moved to PHP and JavaScript and finally discovered Python.
+              * Because I never had the opportunity to visit a university I learned everything I know from Open Source. This is one of the main reasons why I am participating in Open Source: To give something back and grow the community.
+              * I'm a member of the Leipzig Python User Group. They helped me a lot with this talk by giving me the opportunity to do a preview at one of the meetings.
+              * I am a founding member of the German Django Association, which was founded to organize the first DjangoCon Europe community edition in Berlin in 2010.
+              * I support Django Girls as a contributor and mentor.
+              * I also founded the Open Knowledge Lab Leipzig. It's part of Code for Germany, which is inspired by Code for America.
+              * And I'm CTO at PicturePipe, a company offering services around video submission, encoding and streaming.
+            </textarea>
           </aside>
         </section>
         <section data-menu-title="Abstract">
           <h2>
-            <span class="fragment" data-fragment-index="1">
-              How can
-            </span>
-            <span class="fragment" data-fragment-index="2">
-              <br><span class="fragment highlight-blue" data-fragment-index="5">
-                packaging
-              </span>
-              <br>Django projects
-            </span>
-            <span class="fragment" data-fragment-index="3">
-              <br>make
-              <span class="fragment highlight-blue" data-fragment-index="6">
-                deployments
-              </span>
-            </span>
-            <span class="fragment" data-fragment-index="4">
-              <br>easier, faster<br>and more reliable?
-            </span>
+            How can<br>
+            packaging<br>
+            Django projects<br>
+            make deployments<br>
+            easier, faster<br>
+            and more reliable?
           </h2>
+          <aside class="notes" data-markdown>
+            <textarea data-template>
+              How can packaging Django projects make deployments easier, faster and more reliable?
+
+              This is the question I want to discuss today in my talk.
+
+              There three things that I have to explain before I start:
+
+              1. This talk is not about publishing a Django project to the Python Packaging Index.
+              2. I'm not a Python packaging expert.
+              3. These are my personal experiences and views.
+            </textarea>
+          </aside>
         </section>
         <section>
-          <section>
-            <h2>Packaging</h2>
-          </section>
-          <section>
-            <h2>What is a Package?</h2>
-            <p class="fragment">
-              A package is a <span class="fragment highlight-blue">distribution</span> of <span class="fragment highlight-blue">software and data</span><br>in an <span class="fragment highlight-blue">archive file</span>.
-            </p>
-          </section>
-          <section>
-            <h2>Package Metadata</h2>
-            <ul>
-              <li class="fragment">Name</li>
-              <li class="fragment">Version</li>
-              <li class="fragment">Description</li>
-              <li class="fragment">Author</li>
-              <li class="fragment">Dependencies</li>
-            </ul>
-          </section>
-          <section>
-            <h2>Package Manager</h2>
-            <p class="fragment">Downloads and installs packages</p>
-          </section>
+          <h2>Key topics</h2>
+          <ol>
+            <li class="fragment">The quest</li>
+            <li class="fragment">Packaging a Django project</li>
+            <li class="fragment">Installing a packaged Django project</li>
+            <li class="fragment">Packaging tools comparison</li>
+            <li class="fragment">Summary</li>
+          </ol>
+          <aside class="notes" data-markdown>
+            <textarea data-template>
+              Here are the key topics of my talk, so you get a rough idea what I'm going to talk about.
+            </textarea>
+          </aside>
+        </section>
+        <section data-menu-title="The quest">
+          <h2 class="fragment" data-fragment-index="2">
+            My quest for<br>
+            reproducible<br>
+            and deterministic<br>
+            deployments
+          </h2>
+          <aside class="notes" data-markdown>
+            <textarea data-template>
+              I want to start with a short story about my first Python project.
+
+              * I worked on the project back in 2007.
+              * It was a phone book built with a web application construction kit called Nevow.
+              * The data was read from directory server using LDAP.
+              * And it was deployed as a service on a Windows server.
+              * The application and it's dependencies were bundled together into a single installer.
+              * The installer did also configure the application server to run behind an Internet Information Server reverse proxy.
+
+              This was such much better than the deployment experiences I had before, which were just copying the code via FTP to some remote directory.
+
+              And so my quest for reproducible and deterministic deployments begun.
+            </textarea>
+          </aside>
         </section>
         <section>
-          <section>
-            <h2>Deployment</h2>
-          </section>
-          <section>
-            <h2>What is Deployment?</h2>
-          </section>
-          <section data-menu-title="Make Software available">
-            <h2>Make the Software<br>available to your Users</h2>
-            <ol>
-              <li class="fragment" data-fragment-index="1">
-                Make a release
-              </li>
-              <li class="fragment" data-fragment-index="2">
-                Install the release
-              </li>
-            </ol>
-          </section>
-          <section>
-            <h2>Make a Release</h2>
-            <ul>
-              <li class="fragment">Bundle and minify JavaScript</li>
-              <li class="fragment">Compile SCSS to CSS</li>
-              <li class="fragment">Build the documentation</li>
-              <li class="fragment">Compile translations</li>
-              <li class="fragment">Remove files that should not be distributed</li>
-            </ul>
-            <p class="fragment">Then the release need to be stored somewhere.</p>
-          </section>
-          <section>
-            <h2>Install the Release</h2>
-            <ol>
-              <li class="fragment">Transmit the release from the previous step</li>
-              <li class="fragment">Install the release and it's dependencies</li>
-            </ol>
-          </section>
-        </section>
-        <section data-menu-title="xkcd: Will It Work">
-          <img src="img/will_it_work.png">
-          <p>
-            <small>
-              <a href="https://xkcd.com/1742/">xkcd 1742</a> by Randall Munroe
-            </small>
-            <br>
-            <small>
-              <a href="https://creativecommons.org/licenses/by-nc/2.5/">
-                <i class="fab fa-creative-commons"></i><i class="fab fa-creative-commons-by"></i><i class="fab fa-creative-commons-nc"></i>
-              </a>
-            </small>
-          </p>
-        </section>
-        <section data-menu-title="Git is not a deployment tool">
-          <h2>In other words</h2>
-          <p class="fragment">Git is not a deployment tool</p>
-        </section>
-        <section>
-          <section>
-            <h2>Packages</h2>
-          </section>
-          <section>
-            <h2>Package Tools</h2>
-            <table>
-              <thead>
-                <th>Software</th>
-                <th>Domain</th>
-              </thead>
-              <tbody>
-                <tr class="fragment highlight-current-blue">
-                  <td>pip</td>
-                  <td>Python</td>
-                </tr>
-                <tr>
-                  <td>RubyGems</td>
-                  <td>Ruby</td>
-                </tr>
-                <tr>
-                  <td>npm</td>
-                  <td>JavaScript</td>
-                </tr>
-                <tr>
-                  <td>APT/aptitude</td>
-                  <td>Many Linux distributions</td>
-                </tr>
-                <tr>
-                  <td>RPM</td>
-                  <td>Many Linux distributions</td>
-                </tr>
-                <tr>
-                  <td>Docker</td>
-                  <td>Containerization</td>
-                </tr>
-              </tbody>
-            </table>
-          </section>
-        </section>
-        <section>
-          <section>
-            <h2>Python Packages</h2>
-          </section>
-          <section>
-            <h2>Toolchain</h2>
-            <ul>
-              <dt class="fragment" data-fragment-index="1">setuptools</dt>
-              <dd class="fragment" data-fragment-index="1">Packages Python code, data and defines metadata</dd>
-              <dt class="fragment" data-fragment-index="2">pip</dt>
-              <dd class="fragment" data-fragment-index="2">Installs Python packages</dd>
-              <dt class="fragment" data-fragment-index="3">venv</dt>
-              <dd class="fragment" data-fragment-index="3">Creates isolated Python environments</dd>
-              <dt class="fragment" data-fragment-index="4">wheel</dt>
-              <dd class="fragment" data-fragment-index="4">Build wheel archives defined in <a href="https://www.python.org/dev/peps/pep-0427/">PEP 427</a></dd>
-            </ul>
-            <aside data-markdown class="notes">
-              <script type="text/template">
-                <small>
-                  * setuptools enhances Python distutils.
-                  * Don't use setuptools' "Easy Install" or "Python Eggs", they are superseeded by pip and wheel.
-                  * distribute was a fork of setuptools that was merged back into setuptools in v0.7.
-                </small>
-              </script>
+          <section data-menu-title="Packaging a Django project">
+            <h2>Packaging<br>a Django project</h2>
+            <aside class="notes" data-markdown>
+              <textarea data-template>
+                So let's have a look how a Django projects looks like that has been modified to be packaged.
+              </textarea>
             </aside>
           </section>
           <section>
-            <h2>Definitions</h2>
-            <dl>
-              <dt class="fragment" data-fragment-index="1">Python module (a single file)</dt>
-              <dd class="fragment" data-fragment-index="1"><code>models.py</code></dd>
-              <dt class="fragment" data-fragment-index="2">Python package (one or more files in a directory)</dt>
-              <dd class="fragment" data-fragment-index="2"><code>myapp/__init__.py</code></dd>
-              <dt class="fragment" data-fragment-index="3">Python package/distribution</dt>
-              <dd class="fragment" data-fragment-index="3"><code>myproject-1.0.0.tar.gz</code></dd>
-              <dd class="fragment" data-fragment-index="4"><code>myproject-1.0.0-py2.py3-none-any.whl</code></dd>
-            </dl>
-          </section>
-          <section data-menu-title="Compare with Django">
-            <h2>Let's compare this with a Django project</h2>
-          </section>
-          <section>
-            <h3>Django project with one App</h3>
+            <h2>Project structure I</h2>
             <pre>
               <code data-trim data-noescape class="stretch bash">
-myproject # project directory
-├── manage.py
-|   # Sets DJANGO_SETTINGS_MODULE to myproject.settings
-|   # Runs django.core.management.execute_from_command_line()
-├── myapp # This is a Python package
-│   ├── __init__.py
-│   ├── admin.py
-│   ├── apps.py
-│   ├── migrations # This is a Python package, too
-│   │   └── __init__.py
-│   ├── models.py
-│   ├── tests.py
-│   └── views.py
-└── myproject # This is a Python package, too
-    ├── __init__.py
-    ├── settings.py
-    |   # Has myapp.apps.MyappConfig in INSTALLED_APPS
-    ├── urls.py
-    └── wsgi.py
-        # Sets DJANGO_SETTINGS_MODULE to myproject.settings
-        # Runs django.core.wsgi.get_wsgi_application
+  myproject
+  ├── manage.py
+  ├── MANIFEST.in # NEW
+  ├── myproject
+  │   ├── __init__.py
+  │   ├── apps # NEW
+  │   │   ├── __init__.py
+  │   │   └── myapp
+  │   │       ├── __init__.py
+  │   │       ├── apps.py
+  │   │       └── ...
+  │   └── config # NEW
+  │       ├── __init__.py
+  │       ├── settings.py
+  │       ├── urls.py
+  │       └── wsgi.py
+  ├── setup.cfg # NEW
+  └── setup.py # NEW
               </code>
             </pre>
-            <aside data-markdown class="notes">
-              <script type="text/template">
-                <small>
-                  * This is the default structure you get after you executed the <code>startproject</code> and <code>startapp</code> commands.
-                  * Because you need to keep the code in a repository <code>git init</code> has also been executed.
-                  * You will recognize that you already have two Python packages at the top level.
-                  * Furthermore you can see that <code>manage.py</code>, <code>settings.py</code> and <code>wsgi.py</code> refer to apps and settings as Python paths.
-                  * These are all important observations that will help you to build a Python distribution for your Django project.
-                </small>
-              </script>
-            </aside>
-          </section>
-        </section>
-        <section>
-          <section data-menu-title="Package a Django project">
-            <h2>Package<br>a Django project</h2>
-          </section>
-          <section data-menu-title="Three steps to prepare">
-            <h3>Three steps<br>to prepare a Django project</h3>
-            <pre>
-              <code data-trim data-noescape class="stretch bash">
-myproject
-├── manage.py # 2. Change myproject.settings to config.settings
-├── myapp
-│   ├── __init__.py
-│   ├── admin.py
-│   ├── apps.py
-│   ├── migrations
-│   │   └── __init__.py
-│   ├── models.py
-│   ├── tests.py
-│   └── views.py
-└── myproject # 1. Rename to config
-    ├── __init__.py
-    ├── settings.py
-    ├── urls.py
-    └── wsgi.py # 3. Change myproject.settings to config.settings
-              </code>
-            </pre>
-            <aside data-markdown class="notes">
-              <script type="text/template">
-                <small>
-                  * So let's start with transforming your Django project into a Python distribution.
-                  * The first thing you have to do is to rename the <code>myproject</code> Python package to <code>config</code>.
-                  * After that change <code>myproject.settings</code> to <code>config.settings</code> in <code>manage.py</code> and <code>wsgi.py</code>.
-                </small>
-              </script>
+            <aside class="notes" data-markdown>
+              <textarea data-template>
+                This is the structure of a Django project that can be packaged using setuptools.
+
+                Important changes:
+
+                * There are three new files: `MANIFEST.in`, `setup.cfg` and `setup.py`
+                * Apps have been moved into a new created `apps` directory.
+                * All configuration files have been moved into the new `config` directory.
+                * Several have been updated like `manage.py`, `settings.py`, `urls.py` and `wsgi.py`.
+
+                Let's have a look at some of them.
+              </textarea>
             </aside>
           </section>
           <section>
-            <h3>Add a <code>setup.py</code> file</h3>
+            <h2>manage.py</h2>
             <pre>
+              <code data-trim data-noescape class="stretch wide python">
+ 1 │ #!/usr/bin/env python
+ 2 │ import os
+ 3 │ import sys
+ 4 │
+ 5 │ if __name__ == "__main__":
+ 6 │     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "myproject.config.settings")
+ 7 │     try:
+ 8 │         from django.core.management import execute_from_command_line
+ 9 │     except ImportError as exc:
+10 │         raise ImportError(
+11 │             "Couldn't import Django. Are you sure it's installed and "
+12 │             "available on your PYTHONPATH environment variable? Did you "
+13 │             "forget to activate a virtual environment?"
+14 │         ) from exc
+15 │     execute_from_command_line(sys.argv)
+              </code>
+            </pre>
+            <aside class="notes" data-markdown>
+              <textarea data-template>
+                The only change in `manage.py` is in line six where the namespace of the settings module has been updated to use `myproject.config`.
+
+                `wsgi.py` has been updated accordingly.
+              </textarea>
+            </aside>
+          </section>
+          <section>
+            <h2>settings.py I</h2>
+            <pre>
+              <code data-trim data-noescape class="stretch wide python">
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.staticfiles',
+    'myproject.apps.myapp.apps.MyappConfig',
+]
+
+ROOT_URLCONF = 'myproject.config.urls'
+
+WSGI_APPLICATION = 'myproject.config.wsgi.application'
+              </code>
+            </pre>
+            <aside class="notes" data-markdown>
+              <textarea data-template>
+                `settings.py` has also been updated.
+
+                This shows only the settings that have been updated to use the new namespaces.
+
+                The app in `INSTALLED_APPS` uses `myproject.apps`.
+
+                `urls` and `wsgi` modules use `myproject.config`.
+              </textarea>
+            </aside>
+          </section>
+          <section>
+            <h2>Project structure II</h2>
+            <pre>
+              <code data-trim data-noescape class="stretch bash">
+  myproject
+  ├── manage.py
+  ├── MANIFEST.in
+  ├── myproject
+  │   ├── __init__.py
+  │   ├── apps
+  │   │   ├── __init__.py
+  │   │   └── myapp
+  │   ├── config
+  │   ├── locale # NEW
+  │   ├── static # NEW
+  │   └── templates # NEW
+  ├── setup.cfg
+  └── setup.py
+              </code>
+            </pre>
+            <aside class="notes" data-markdown>
+              <textarea data-template>
+                Three new directories have also been added.
+
+                Notice that there are no `media` and `static_root` directories.
+
+                They could be created for development, but it would make no sense to have them for deployment.
+
+                Especially the `media` directory should not be inside the packaging, as it contains user uploads.
+
+                These would be deleted if a new version of the project will be installed.
+              </textarea>
+            </aside>
+          </section>
+          <section>
+            <h2>settings.py II</h2>
+            <pre>
+              <code data-trim data-noescape class="stretch wide python">
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'locale'),
+)
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+            ],
+        },
+    },
+]
+              </code>
+            </pre>
+            <aside class="notes" data-markdown>
+              <textarea data-template>
+                `settings.py` has been updated again to configure the paths for the three new directories.
+              </textarea>
+            </aside>
+          </section>
+          <section data-menu-title="requirements vs. setup.py">
+            <h2>requirements.txt<br>vs.<br>setup.py &amp; setup.cfg</h2>
+            <aside class="notes" data-markdown>
+              <textarea data-template>
+                Usually a `requirements.txt` file is used to define the dependencies of a project.
+
+                And `setup.py` and `setup.cfg` are used for packaging libraries.
+
+                But if `setup.py` and `setup.cfg` are required to package the project, why not use them for both, dependencies and packaging?
+              </textarea>
+            </aside>
+          </section>
+          <section>
+            <h2>"Old" setup.py</h2>
+            <pre style="font-size: 0.3em">
               <code data-trim data-noescape class="stretch python">
-from setuptools import setup
+import os
+import re
+from codecs import open
+from setuptools import find_packages, setup
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+def read(*paths):
+    """Build a file path from *paths and return the contents."""
+    with open(os.path.join(*paths), 'r', 'utf-8') as f:
+        return f.read()
+
+with open('myproject/__init__.py') as f:
+    contents = f.read()
+    metadata = dict(re.findall(r'__([a-z]+)__\s*=\s*[\'"]([^\'"]*)[\'"]', contents))
+    metadata['description'] = re.search(r'^"{3}(.*)"{3}', contents, re.DOTALL).group(1)
+
 setup(
     name='myproject',
-    version='1.0.0',
-    description='Lorem ipsum dolor sit amet.',
-    long_description='Consectetur adipisicing elit tempor.',
-    author='Ada Lovelace',
-    author_email='ada@example.com',
+    version=metadata['version'],
+    description=metadata['description'],
+    long_description=read(BASE_DIR, 'README.rst'),
+    author=metadata['author'],
+    author_email=metadata['email'],
     include_package_data=True,
-    install_requires=[],
-    license='Other/Proprietary License',
-    packages=['myproject'],
+    install_requires=['arrow', 'bleach', 'Django', 'django-allauth', 'gunicorn', 'psycopg2', 'pytz', 'wagtail'],
+    license=metadata['license'],
+    url=metadata['url'],
+    packages=find_packages(exclude=['tests*']),
     zip_safe=False,
     classifiers=[
+        'Development Status :: 5 - Production/Stable',
+        'Environment :: Web Environment',
         'Framework :: Django',
-        'Intended Audience :: Developers',
-        'License :: Other/Proprietary License',
-        'Operating System :: OS Independent',
-        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python',
     ],
 )
               </code>
             </pre>
-            <aside data-markdown class="notes">
-              <script type="text/template">
-                <small>
-                  * Create a file named <code>setup.py</code> in your repository root.
-                  * In this file you have to call the <code>setup()</code> function from the <code>setuptools</code> package.
-                  * <code>include_package_data=True</code> tells setuptools to automatically include any data files that are specified by your <code>MANIFEST.in</code> file.
-                  * You can leave <code>install_requires</code> empty for now.
-                  * Set <code>license</code> to whatever license fits your needs - but if you use an Open Source license stick to ones that are OSI approved.
-                  * <code>find_packages()</code> will search for all packages to include in the distribution and exclude any tests.
-                  * A full list of trove classifiers is available on PyPI.
-                </small>
-              </script>
-            </aside>
-          </section>
+            <aside class="notes" data-markdown>
+              <textarea data-template>
+                Usually a `setup.py` file looks like this. It contains not only static metadata for the package, but also some code.
 
-          <section>
-            <h3>Current project structure</h3>
-            <pre>
-              <code data-trim data-noescape class="stretch bash">
-myproject
-├── config # Was renamed from myproject to config
-│   ├── __init__.py
-│   ├── settings.py
-│   ├── urls.py
-│   └── wsgi.py
-├── manage.py
-├── myapp
-│   ├── __init__.py
-│   ├── admin.py
-│   ├── apps.py
-│   ├── migrations
-│   │   └── __init__.py
-│   ├── models.py
-│   ├── tests.py
-│   └── views.py
-└── setup.py # Was added in the previous step
-              </code>
-            </pre>
-            <aside data-markdown class="notes">
-              <script type="text/template">
-                <small>
-                  * This is the project structure you have after adding <code>setup.py</code>.
-                  * But all code for a Python distribution must be in a single directory.
-                  * At the moment you have two Python packages in your repository root.
-                  * So let's reorganize the project structure.
-                </small>
-              </script>
+                The code is usually used to read information from other files.
+              </textarea>
             </aside>
           </section>
           <section>
-            <h3>New project structure</h3>
+            <h2>setup.cfg I</h2>
             <pre>
-              <code data-trim data-noescape class="stretch bash">
-myproject
-├── manage.py           # 1. DJANGO_SETTINGS_MODULE modified to
-|                       #    myproject.config.settings
-├── myproject           # 2. New directory
-│   ├── __init__.py     # 3. New empty file
-│   ├── apps            # 4. New directory
-│   │   ├── __init__.py # 5. New empty file
-│   │   ├── myapp       # 6. myapp was moved into myproject/apps
-│   │   │   ├── __init__.py
-│   │   │   ├── apps.py
-│   │   │   └── ...
-│   └── config          # 7. config was moved into myproject
-│       ├── __init__.py
-│       ├── settings.py
-│       │   # 8. INSTALLED_APPS modified to
-│       │   #     myproject.apps.myapp.apps.MyappConfig
-│       │   #    ROOT_URLCONF, WSGI_APPLICATION also modified
-│       ├── urls.py     # 9. include() calls modified
-│       └── wsgi.py     # 10. DJANGO_SETTINGS_MODULE modified
-└── setup.py
+              <code data-trim data-noescape class="stretch ini">
+[metadata]
+name = myproject
+version = 1.2.0
+description = Lorem ipsum
+long_description = file: README.rst
+author = My Company
+author_email = development@example.com
+license = Other/Proprietary License
+classifiers =
+    Development Status :: 5 - Production/Stable
+    Environment :: Web Environment
+    Framework :: Django
+    Programming Language :: Python
               </code>
             </pre>
-            <aside data-markdown class="notes">
-              <script type="text/template">
-                <small>
-                  * This is the new project structure that organizes all code in a single Python package.
-                  * This package will be collected by the <code>find_packages()</code> function in <code>setup.py</code>.
-                  * Make sure you replace all imports pointing at your apps files.
-                  * Also exchange the Python paths in <code>manage.py</code>, <code>settings.py</code>, <code>urls.py</code> and <code>wsgi.py</code> with the new paths.
-                </small>
-              </script>
+            <a href="https://setuptools.readthedocs.io/en/latest/setuptools.html#configuring-setup-using-setup-cfg-files"><i class="fab fa-firefox"></i>Configuring setup() using setup.cfg files</a>
+            <aside class="notes" data-markdown>
+              <textarea data-template>
+                But since setuptools 30.3.0, released in December 2016, the `setup.cfg` file can be used to define the configuration.
+
+                As you can see this makes the file much more readable. And there is no code that can be executed!
+
+                Of course all machines that install the package need to have a version of setuptools installed that supports this feature.
+
+                But since we usually control the deployment environment this is no problem at all.
+
+                Below is the link to the corresponding setuptools documentation.
+              </textarea>
             </aside>
           </section>
           <section>
-            <h3>Dependencies defined in <code>setup.py</code></h3>
+            <h2>setup.cfg II</h2>
             <pre>
-              <code data-trim data-noescape class="stretch bash">
-requires = [
-    'Django==2.0.5',
-    'django-braces==1.13.0',
-    'django-crispy-forms==1.7.2',
-    'psycopg2==2.7.4',
-    'pytz==2018.4',
-]
-setup(
-    name='myproject',
-    version='1.0.0',
-    description='Lorem ipsum dolor sit amet.',
-    long_description='Consectetur adipisicing elit tempor.',
-    author='Ada Lovelace',
-    author_email='ada@example.com',
-    include_package_data=True,
-    install_requires=requires, # Replaced [] with requires
-    ...
-)
+              <code data-trim data-noescape class="stretch ini">
+[options]
+zip_safe = False
+include_package_data = True
+packages = myproject
+install_requires =
+    arrow==0.12.1
+    bleach==2.1.3
+    Django==2.0.5
+    django-allauth==0.36.0
+    gunicorn==19.8.1
+    psycopg2==2.7.4
+    pytz==2018.4
+    wagtail==2.0.1
+python_requires = >=3.6,<3.7
+
+[bdist_wheel]
+universal = 1
               </code>
             </pre>
-            <aside data-markdown class="notes">
-              <script type="text/template">
-                <small>
-                  * Replace the list for the <code>install_requires</code> argument with the new <code>requires</code> variable.
-                  * You can pin every dependency to a specific version, like in <code>requirements.txt</code>.
-                  * You can also add the dependencies of your dependencies, if you really want to. But I'll later show a different solution for this.
-                </small>
-              </script>
+            <aside class="notes" data-markdown>
+              <textarea data-template>
+                This is the second part of the `setup.cfg` file containing the options.
+
+                Because this is a project and not a library, no other distribution is consuming our dependencies.
+
+                So we can pin all of them. Notice it's also possible to pin the Python version.
+
+                This helps us to get reproducible and deterministic installations.
+              </textarea>
             </aside>
           </section>
           <section>
-            <h3>Optional dependencies</h3>
-            <pre>
-              <code data-trim data-noescape class="stretch bash">
-extras_require = {
-    'django_storages': [
-        'boto==2.48.0',
-        'django-storages==1.6.6',
-    ],
-    'gunicorn': [
-        'gunicorn==19.8.1',
-    ],
-    'whitenoise': [
-        'whitenoise==3.3.1',
-    ],
-}
-setup(
-    name='myproject',
-    version='1.0.0',
-    ...
-    include_package_data=True,
-    install_requires=requires,
-    extras_require=extras_require, # This is a new line
-    ...
-)
+            <h2>"New" setup.py</h2>
+            <pre style="font-size: 0.3em">
+              <code data-trim data-noescape class="stretch python">
+from setuptools import setup
+
+setup()
               </code>
             </pre>
-            <aside data-markdown class="notes">
-              <script type="text/template">
-                <small>
-                  * You can define optional dependencies in a way similar to how you defined your dependencies before.
-                  * But optional dependencies can be defined in groups.
-                  * Be aware that you can't use a hyphen in the key, that is why <code>django_storages</code> is used.
-                </small>
-              </script>
+            <aside class="notes" data-markdown>
+              <textarea data-template>
+                Because all metadata and dependencies are now defined in `setup.cfg` we just need a boilerplate `setup.py` so that setuptools can build the package.
+
+                Nice, isn't it?
+              </textarea>
             </aside>
           </section>
           <section>
-            <h3>How to install optional dependencies?</h3>
-            <pre>
-              <code data-trim data-noescape class="bash">
-                pip install myproject[gunicorn,whitenoise]==1.0.0
-              </code>
-            </pre>
-            <aside data-markdown class="notes">
-              <script type="text/template">
-                <small>
-                  * I think this way is superior to having to deal with multiple requirements files for deployment.
-                  * But we still use requirements files to install development and testing packages.
-                </small>
-              </script>
+            <h2>bumpversion</h2>
+            <a href="https://pypi.org/project/bumpversion/"><img src="img/bumpversion.png"></a>
+            <aside class="notes" data-markdown>
+              <textarea data-template>
+                If you searching for a tool to bump the version of the package I highly recommend bumpversion.
+
+                bumpversion's configuration can also be added to `setup.cfg`.
+              </textarea>
             </aside>
           </section>
           <section>
-            <h3>Directories for media,<br>static files and templates</h3>
+            <h2>MANIFEST.in</h2>
             <pre>
               <code data-trim data-noescape class="stretch bash">
-myproject
-├── manage.py
-├── myproject
-│   ├── __init__.py
-│   ├── apps
-│   ├── config
-│   ├── media # Path for MEDIA_ROOT setting
-│   │   └── .gitkeep
-│   ├── static  # Path for STATICFILES_DIRS setting
-│   │   └── .gitkeep
-│   ├── static_root # Path for STATIC_ROOT setting
-│   │   └── .gitkeep
-│   └── templates # Path for DIRS key in TEMPLATES setting
-│       ├── 404.html
-│       └── base.html
-└── setup.py
-              </code>
-            </pre>
-            <aside data-markdown class="notes">
-              <script type="text/template">
-                <small>
-                  * So of course you want directories for media, static files and template.
-                  * Create them like inside the <code>myproject</code> directory so that they can become a part of the distribution.
-                </small>
-              </script>
-            </aside>
-          </section>
-          <section>
-            <h3>What about <code>manage.py</code>?</h3>
-            <pre>
-              <code data-trim data-noescape class="stretch bash">
-entry_points = {
-    'console_scripts': [
-        'site-admin = django.core.management:execute_from_command_line',
-    ]
-}
-setup(
-    name='myproject',
-    version='1.0.0',
-    ...
-    include_package_data=True,
-    install_requires=requires,
-    extras_require=extras_require,
-    entry_points=entry_points, # This is a new line
-    ...
-)
-              </code>
-            </pre>
-            <aside data-markdown class="notes">
-              <script type="text/template">
-                <small>
-                  * As explained at the beginning <code>manage.py</code> just sets <code>DJANGO_SETTINGS_MODULE</code> and runs <code>django.core.management.execute_from_command_line()</code>.
-                  * This means we do not really need it, it's just there for convenience.
-                  * So you can either simply call <code>django-admin</code> or use <code>entry_points</code> instead. This is important if you use a different <code>execute_from_command_line()</code> function, like the one from django-configurations.
-                  * So you simply call <code>site-admin</code> instead of <code>django-admin</code> in this case.
-                </small>
-              </script>
-            </aside>
-          </section>
-          <section>
-            <h3>Additional files defined <code>MANIFEST.in</code></h3>
-            <pre>
-              <code data-trim data-noescape class="stretch bash">
-include *.rst # For files like CONTRIBUTING.rst or README.rst
-include MANIFEST.in
-include LICENSE
+include *.rst
 graft myproject
-prune myproject/media # Don't include any media files
-include myproject/media/.gitkeep # Just add the empty directory
+prune myproject/media
 prune myproject/static_root
-prune tests
-exclude .*
-exclude *.js
-exclude *.json
-exclude *.txt
 exclude *.yml
 exclude manage.py
-exclude tox.ini
-exclude yarn.lock
 global-exclude *.py[co]
 global-exclude __pycache__
               </code>
             </pre>
-            <aside data-markdown class="notes">
-              <script type="text/template">
-                <small>
-                  * You need the <code>MANIFEST.in</code> file to configure which files are included in the distribution.
-                  * Create it in the same directory as <code>setup.py</code>.
-                </small>
-              </script>
-            </aside>
-          </section>
-          <section>
-            <h3>wheel configuration in <code>setup.cfg</code></h3>
-            <pre>
-              <code data-trim data-noescape class="bash">
-[wheel]
-universal = 1
-              </code>
-            </pre>
-            <aside data-markdown class="notes">
-              <script type="text/template">
-                <small>
-                  * Create the file in the same directory as <code>setup.py</code>.
-                  * If you do not configure the wheel to be universal you will have to create different ones for each Python version.
-                </small>
-              </script>
-            </aside>
-          </section>
-          <section>
-            <h3>Current project structure</h3>
-            <pre>
-              <code data-trim data-noescape class="bash">
-myproject
-├── manage.py
-├── myproject
-│   ├── __init__.py
-│   ├── apps
-│   ├── config
-│   ├── media
-│   ├── static
-│   ├── static_root
-│   └── templates
-├── MANIFEST.in
-├── setup.cfg
-└── setup.py
-              </code>
-            </pre>
-            <aside data-markdown class="notes">
-              <script type="text/template">
-                <small>
-                  * This is how your main project structure should look like now.
-                </small>
-              </script>
-            </aside>
-          </section>
-          <section>
-            <h3>How to set up tests?</h3>
-            <pre>
-              <code data-trim data-noescape class="stretch bash">
-myproject
-├── manage.py
-├── myproject
-│   ├── __init__.py
-│   ├── apps
-│   ├── config
-│   ├── media
-│   ├── static
-│   ├── static_root
-│   └── templates
-├── tests
-│   ├── __init__.py
-│   └── myapp
-│       ├── __init__.py
-│       └── test_models.py
-|           # from myproject.apps.myapp import models
-├── MANIFEST.in
-├── setup.cfg
-└── setup.py
-              </code>
-            </pre>
-            <aside data-markdown class="notes">
-              <script type="text/template">
-                <small>
-                  * Create a new directory for your tests called <code>tests</code> in the repository root and put a <code>__init__.py</code> in it.
-                  * Then put the tests into subdirectories grouping them by app or topic.
-                  * This is the same way Django itself organizes it test suite.
-                  * Make sure you always import code from your project with the full Python path. Both Python packages are completely separate!
-                </small>
-              </script>
-            </aside>
-          </section>
-          <section>
-            <h3>Where to put additional code?</h3>
-            <pre>
-              <code data-trim data-noescape class="stretch bash">
-myproject
-├── .git
-├── manage.py
-├── myproject
-│   ├── __init__.py
-│   ├── context_processors.py
-|   |   # Usage: from myproject.context_processors import func
-│   ├── apps
-│   ├── config
-│   ├── media
-│   ├── static
-│   ├── static_root
-│   └── templates
-├── tests
-├── MANIFEST.in
-├── setup.cfg
-└── setup.py
-              </code>
-            </pre>
-            <aside data-markdown class="notes">
-              <script type="text/template">
-                <small>
-                  * Because you have now a project structure that is completely namespaced it should be easier to figure our where to put additional code.
-                </small>
-              </script>
-            </aside>
-          </section>
+            <aside class="notes" data-markdown>
+              <textarea data-template>
+                Finally there is the `MANIFEST.in` file.
 
+                It is used to control which files beside the Python source code go into the distribution.
+
+                It's evaluated from top to bottom and can be used to include or exclude single files or complete directories including their subdirectories.
+
+                Because the whole `myproject` directory is added all files in the `static` directory will be part of the package, too.
+              </textarea>
+            </aside>
+          </section>
+          <section>
+            <h2>check-manifest</h2>
+            <a href="https://pypi.org/project/check-manifest/"><img src="img/check-manifest.png"></a>
+            <aside class="notes" data-markdown>
+              <textarea data-template>
+                check-manifest is a tool to validate the `MANIFEST.in` file. It can also be configured with a separate section in `setup.cfg`.
+              </textarea>
+            </aside>
+          </section>
+          <section>
+            <h2>What about manage.py?</h2>
+            <pre class="fragment">
+              <code data-trim data-noescape class="stretch wide ini">
+[options.entry_points]
+console_scripts =
+    site-admin = django.core.management:execute_from_command_line
+              </code>
+            </pre>
+            <aside class="notes" data-markdown>
+              <textarea data-template>
+                `manage.py` has been excluded in `MANIFEST.in` in the previous step. So how are we going to execute any commmands?
+
+                The answer is to create an entrypoint named `site-admin` in `setup.cfg` that executes the same code like `manage.py`.
+
+                Bonus: It can be executed from any directory!
+              </textarea>
+            </aside>
+          </section>
+          <section>
+            <h2>Building the package</h2>
+            <pre>
+              <code data-trim data-noescape class="stretch bash">
+                python setup.py bdist_wheel
+              </code>
+              <code data-trim data-noescape class="stretch bash fragment" data-fragment-index="1">
+                ls dist
+              </code>
+              <code data-trim data-noescape class="stretch bash fragment" data-fragment-index="1">
+                myproject-1.2.0-py2.py3-none-any.whl
+              </code>
+            </pre>
+            <aside class="notes" data-markdown>
+              <textarea data-template>
+                Building the package is one simple command.
+
+                The result is a wheel archive.
+              </textarea>
+            </aside>
+          </section>
+        </section>
+        <section>
+          <section data-menu-title="Installing the package">
+            <h2>Installing a packaged Django project</h2>
+            <aside class="notes" data-markdown>
+              <textarea data-template>
+              </textarea>
+            </aside>
+          </section>
+          <section>
+            <h2>pip-tools</h2>
+            <a href="https://pypi.org/project/pip-tools/"><img src="img/pip-tools.png"></a>
+            <aside class="notes" data-markdown>
+              <textarea data-template>
+              </textarea>
+            </aside>
+          </section>
+          <section>
+            <h2>pip-tools commands</h2>
+            <pre>
+              <code data-trim data-noescape class="stretch bash">
+                pip-compile --output-file constraints.txt
+              </code>
+              <code data-trim data-noescape class="stretch bash fragment">
+                pip-compile --generate-hashes --output-file constraints.txt
+              </code>
+              <code data-trim data-noescape class="stretch bash fragment">
+                pip-sync constraints.txt
+              </code>
+            </pre>
+            <aside class="notes" data-markdown>
+              <textarea data-template>
+              </textarea>
+            </aside>
+          </section>
+          <section>
+            <h2>constraints.txt</h2>
+            <pre style="font-size: 0.33em">
+              <code data-trim data-noescape class="stretch bash">
+#
+# This file is autogenerated by pip-compile
+# To update, run:
+#
+#    pip-compile --output-file constraints.txt setup.py
+#
+arrow==0.12.1
+beautifulsoup4==4.6.0     # via wagtail
+bleach==2.1.3
+defusedxml==0.5.0         # via python3-openid
+django-allauth==0.36.0
+django-modelcluster==4.1  # via wagtail
+django-taggit==0.22.2     # via wagtail
+django-treebeard==4.3     # via wagtail
+django==2.0.5             # via django-allauth, django-treebeard, wagtail
+djangorestframework==3.8.2  # via wagtail
+draftjs-exporter==2.0.0   # via wagtail
+gunicorn==19.8.1
+html5lib==0.999999999     # via bleach, wagtail
+oauthlib==2.1.0           # via requests-oauthlib
+olefile==0.45.1           # via pillow
+pillow==4.0.0             # via wagtail
+psycopg2==2.7.4
+python-dateutil==2.7.3    # via arrow
+python3-openid==3.1.0     # via django-allauth
+pytz==2018.4
+requests-oauthlib==0.8.0  # via django-allauth
+requests==2.13.0          # via django-allauth, requests-oauthlib, wagtail
+six==1.11.0               # via bleach, html5lib, python-dateutil
+unidecode==0.4.21         # via wagtail
+wagtail==2.0.1
+webencodings==0.5.1       # via html5lib
+willow==1.1               # via wagtail
+              </code>
+            </pre>
+            <aside class="notes" data-markdown>
+              <textarea data-template>
+              </textarea>
+            </aside>
+          </section>
+          <section>
+            <h2>Installing for development</h2>
+            <pre>
+              <code data-trim data-noescape class="stretch bash">
+                python -m pip install -c constraints.txt -e .
+              </code>
+            </pre>
+            <aside class="notes" data-markdown>
+              <textarea data-template>
+              </textarea>
+            </aside>
+          </section>
+          <section>
+            <h2>Installing development tools</h2>
+            <pre>
+              <code data-trim data-noescape class="stretch ini">
+                [options.extras_require]
+                dev =
+                    bumpversion
+                    django-debug-toolbar
+                    flake8
+              </code>
+              <code data-trim data-noescape class="stretch bash fragment">
+                python -m pip install -c constraints.txt -e .[dev]
+              </code>
+            </pre>
+            <aside class="notes" data-markdown>
+              <textarea data-template>
+              </textarea>
+            </aside>
+          </section>
+          <section>
+            <h2>How to serve the package?</h2>
+            <ul>
+              <li>From the file system</li>
+              <li>Using any HTTP server</li>
+              <li>Using <a href="https://www.devpi.net/">devpi</a></li>
+            </ul>
+            <aside class="notes" data-markdown>
+              <textarea data-template>
+              </textarea>
+            </aside>
+          </section>
+          <section>
+            <h2>Installing on any server</h2>
+            <pre>
+              <code data-trim data-noescape class="stretch bash">
+                python -m pip install -c constraints.txt myproject
+              </code>
+              <code data-trim data-noescape class="stretch bash fragment">
+                python -m pip install -c constraints.txt \
+                    -f /path/to/wheel myproject
+              </code>
+              <code data-trim data-noescape class="stretch bash fragment">
+                python -m pip install -c constraints.txt \
+                    --extra-index-url https://example.com myproject
+              </code>
+            </pre>
+            <aside class="notes" data-markdown>
+              <textarea data-template>
+              </textarea>
+            </aside>
+          </section>
+          <section>
+            <h2>How to change settings?</h2>
+            <ul>
+              <li class="fragment">Use environment variables</li>
+              <li class="fragment">Except for the secrets - use a vault for this if possible</li>
+              <li class="fragment">Python and Django solutions
+                <ul>
+                  <li><a href="https://pypi.org/project/envdir/">envdir</a></li>
+                  <li><a href="https://pypi.org/project/django-configurations/">django-configurations</a></li>
+                  <li><a href="https://pypi.org/project/envparse/">envparse</a></li>
+                  <li><a href="https://pypi.org/project/environ-config/">environ-config</a></li>
+                </ul>
+              </li>
+            </ul>
+            <aside class="notes" data-markdown>
+              <textarea data-template>
+              </textarea>
+            </aside>
+          </section>
+          <section>
+            <h2>Running a WSGI server</h2>
+            <pre>
+              <code data-trim data-noescape class="stretch bash">
+                gunicorn myproject.config.wsgi
+              </code>
+            </pre>
+            <aside class="notes" data-markdown>
+              <textarea data-template>
+              </textarea>
+            </aside>
+          </section>
+        </section>
+        <section>
+          <h2>Packaging tools comparison</h2>
+          <ul>
+            <li class="fragment">Use npm/yarn for JavaScript dependency management</li>
+            <li class="fragment">Python packages are the lowest common denominator</li>
+            <li class="fragment">conda can be used Instead of pip to install a packaged Django project</li>
+            <li class="fragment">Use tools like pex or snapcraft</li>
+            <li class="fragment">Use platform package managers if necessary</li>
+            <li class="fragment">Use Docker if necessary</li>
+          </ul>
+          <aside class="notes" data-markdown>
+            <textarea data-template>
+              * npm/yarn
+                * Use webpack or another bundler to create JavaScript bundles for the frontend and put them into the `static` directory.
+              * Python
+                * Not all platforms have a package manager, but all platforms have Python!
+              * conda
+                * Packages can be installed without having Python installed in the first place
+                * Non-Python dependencies can be installed too
+              * Use tools like pex or snapcraft
+              * Use platform package managers if necessary
+              * Use Docker if necessary
+            </textarea>
+          </aside>
+        </section>
+        <section>
+          <h2>Summary</h2>
+          <ul>
+            <li class="fragment">Hosting solution independent</li>
+            <li class="fragment">Uses tools you already know and use to install your dependencies - prevents NIH syndrome</li>
+            <li class="fragment">Improves deployment to many servers</li>
+            <li class="fragment">Same release is used everywhere: Dev, CI, Staging, Production</li>
+            <li class="fragment">Easy rollback</li>
+            <li class="fragment">A built distribution requires no build step</li>
+            <li class="fragment">Avoids to install tools like git, gcc, gettext, Node.js etc.</li>
+          </ul>
+          <aside class="notes" data-markdown>
+            <textarea data-template>
+            </textarea>
+          </aside>
         </section>
         <section>
           <h2>Thank you!</h2>
@@ -738,8 +765,13 @@ myproject
         <section>
           <h2>Resources</h2>
           <p>
-            <a href="https://github.com/keimlink/can-packaging-improve-django-deployments">
-              <i class="fab fa-github"></i>keimlink/can-packaging-improve-django-deployments
+            <a href="http://slides.keimlink.de">
+              <i class="fab fa-firefox"></i>slides.keimlink.de
+            </a>
+          </p>
+          <p>
+            <a href="https://github.com/keimlink">
+              <i class="fab fa-github"></i>keimlink
             </a>
           </p>
           <p>
@@ -747,14 +779,22 @@ myproject
               <i class="fab fa-twitter"></i>@keimlink
             </a>
           </p>
+          <p>
+            <a href="mailto:markus@keimlink.de">
+              <i class="fas fa-envelope"></i>markus@keimlink.de
+            </a>
+          </p>
           <p class="creativecommons">
             <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
               <i class="fab fa-creative-commons"></i>
               <i class="fab fa-creative-commons-by"></i>
-            </a><br>
-            <span>
-              This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>
-            </span>
+            </a>
+          </p>
+          <p class="smaller">
+            This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>
+          </p>
+          <p class="smaller">
+            Built with <a href="https://github.com/keimlink/cookiecutter-reveal.js">cookiecutter-reveal.js</a>, <a href="https://github.com/hakimel/reveal.js">reveal.js</a>, <a href="https://github.com/denehyg/reveal.js-menu">reveal.js-menu</a>, <a href="https://fontawesome.com/">Font Awesome</a> and <a href="https://github.com/vorillaz/devicons">devicons</a>.
           </p>
         </section>
       </div>
