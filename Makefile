@@ -5,7 +5,7 @@ PORT ?= 8000
 
 RSYNC_DEST ?= doms/keimlink.de/subs/slides/can-packaging-improve-django-deployments
 RSYNC_HOST ?= zed00.hostsharing.net
-RSYNC_SRC ?= css js lib index.html plugin third_party_plugins webfonts
+RSYNC_SRC ?= css img js lib index.html plugin third_party_plugins webfonts
 RSYNC_USER ?= zed00-streetcleaner
 
 python = /usr/bin/env python $(1)
